@@ -1,0 +1,12 @@
+net a<1> loc=k4;
+net a<0> loc=k3;
+net b<1> loc=k2;
+net b<0> loc=j4;
+net s<6> loc=r10;
+net s<5> loc=t7;
+net s<4> loc=p10;
+net s<3> loc=r7;
+net s<2> loc=n6;
+net s<1> loc=m11;
+net s<0> loc=m6;
+net dp loc=n11;
