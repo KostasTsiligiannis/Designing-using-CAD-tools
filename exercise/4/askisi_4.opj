@@ -1,0 +1,142 @@
+(ExpressProject "askisi_4"
+  (ProjectType "PCB")
+  (Folder "Design Resources"
+    (Folder "Library"
+      (File "C:\ORCADWIN\EXPRESS\LIBRARY\CAPSYM.OLB"
+        (Type "Schematic Library"))
+      (File "C:\ORCADWIN\EXPRESS\LIBRARY\SPICE.OLB"
+        (Type "Schematic Library"))
+      (File "C:\ORCADWIN\EXPRESS\LIBRARY\TTL.OLB"
+        (Type "Schematic Library"))
+      (File "C:\ORCADWIN\EXPRESS\LIBRARY\PSPICE.OLB"
+        (Type "Schematic Library"))
+      (File "C:\ORCADWIN\EXPRESS\LIBRARY\CONNECTR.OLB"
+        (Type "Schematic Library")))
+    (NoModify)
+    (File ".\design1.dsn"
+      (Type "Schematic Design"))
+    (BuildFileAddedOrDeleted "x")
+    (CompileFileAddedOrDeleted "x"))
+  (Folder "Outputs"
+    (File ".\design1.drc"
+      (Type "Report")))
+  (Folder "Referenced Projects")
+  (Folder "Simulation Resources"
+    (Folder "In Design"
+      (File "C:\ORCADWIN\EXPRESS\LIBRARY\AC.VHD"
+        (Type "VHDL SimModel"))
+      (File "C:\ORCADWIN\EXPRESS\LIBRARY\ACT.VHD"
+        (Type "VHDL SimModel"))
+      (File "C:\ORCADWIN\EXPRESS\LIBRARY\ALS.VHD"
+        (Type "VHDL SimModel"))
+      (File "C:\ORCADWIN\EXPRESS\LIBRARY\AS.VHD"
+        (Type "VHDL SimModel"))
+      (File "C:\ORCADWIN\EXPRESS\LIBRARY\S.VHD"
+        (Type "VHDL SimModel"))
+      (File "C:\ORCADWIN\EXPRESS\LIBRARY\TTL.VHD"
+        (Type "VHDL SimModel"))
+      (File "C:\ORCADWIN\EXPRESS\LIBRARY\orcomp.vhd"
+        (Type "VHDL SimModel"))
+      (File ".\indesign\design1.vhd"
+        (Type "VHDL Netlist")
+        (FromUpdateSimFolder "yes"))
+      (File ".\stimulus.stm"
+        (Type "Simulate Stimulus"))
+      (Options
+        (AssertBeep 1)
+        (AssertLog 1)
+        (AssertMsg 1)
+        (AssertStop 1)
+        (BreakBeep 1)
+        (BreakLog 1)
+        (BreakMessage 1)
+        (BreakStop 1)
+        (FileOpen "C:\Lab\ask_1_papanikolaou")
+        (InstructionStep 1)
+        (InteractiveUpdate 0)
+        (ITCEnabled 0)
+        (ListDisplayTop 1)
+        (LogTimeStamp 1)
+        (MiscOptLastPage 0)
+        (PlaAddToProject 1)
+        (PlaClockToOutput 0)
+        (PlaCombinational 0)
+        (PlaResolution -1)
+        (PlaSetupTime 0)
+        (PlaSpeedGrade 15)
+        (PlaTriStateEnable 0)
+        (Radix 0)
+        (RunResolution 2)
+        (RunTime 10000)
+        (SDFTiming 1)
+        (TimeCursorSnap 0)
+        (TimingBeep 0)
+        (TimingLog 1)
+        (TimingMsg 0)
+        (TimingStop 0)
+        (VHDLStandard 1)
+        (WaveDisplayTop 1)))
+    (Folder "Compiled"
+      (File "C:\ORCADWIN\EXPRESS\LIBRARY\AC.VHD"
+        (Type "VHDL SimModel"))
+      (File "C:\ORCADWIN\EXPRESS\LIBRARY\ACT.VHD"
+        (Type "VHDL SimModel"))
+      (File "C:\ORCADWIN\EXPRESS\LIBRARY\ALS.VHD"
+        (Type "VHDL SimModel"))
+      (File "C:\ORCADWIN\EXPRESS\LIBRARY\AS.VHD"
+        (Type "VHDL SimModel"))
+      (File "C:\ORCADWIN\EXPRESS\LIBRARY\S.VHD"
+        (Type "VHDL SimModel"))
+      (File "C:\ORCADWIN\EXPRESS\LIBRARY\TTL.VHD"
+        (Type "VHDL SimModel"))
+      (File "C:\ORCADWIN\EXPRESS\LIBRARY\orcomp.vhd"
+        (Type "VHDL SimModel"))
+      (File ".\indesign\design1.vhd"
+        (Type "VHDL Netlist")
+        (FromUpdateSimFolder "yes")))
+    (Folder "Timed"
+      (File "C:\ORCADWIN\EXPRESS\LIBRARY\AC.VHD"
+        (Type "VHDL SimModel"))
+      (File "C:\ORCADWIN\EXPRESS\LIBRARY\ACT.VHD"
+        (Type "VHDL SimModel"))
+      (File "C:\ORCADWIN\EXPRESS\LIBRARY\ALS.VHD"
+        (Type "VHDL SimModel"))
+      (File "C:\ORCADWIN\EXPRESS\LIBRARY\AS.VHD"
+        (Type "VHDL SimModel"))
+      (File "C:\ORCADWIN\EXPRESS\LIBRARY\S.VHD"
+        (Type "VHDL SimModel"))
+      (File "C:\ORCADWIN\EXPRESS\LIBRARY\TTL.VHD"
+        (Type "VHDL SimModel"))
+      (File "C:\ORCADWIN\EXPRESS\LIBRARY\orcomp.vhd"
+        (Type "VHDL SimModel"))
+      (File ".\indesign\design1.vhd"
+        (Type "VHDL Netlist")
+        (FromUpdateSimFolder "yes")))
+    (DefaultFolder "In Design")
+    (LastModified "Thu Apr 04 15:11:20 2024"))
+  (GlobalState
+    (Physical 0)
+    (FileView
+      (Path "Design Resources")
+      (Path "Design Resources" ".\design1.dsn")
+      (Path "Design Resources" ".\design1.dsn" "SCHEMATIC1")
+      (Path "Outputs")
+      (Path "Simulation Resources" "In Design")
+      (Path "Simulation Resources" "Compiled")
+      (Path "Simulation Resources" "Timed")
+      (Select "Design Resources" ".\design1.dsn"))
+    (HierarchyView)
+    (Document
+      (Type "COrCapturePMDoc")
+      (Frame
+        (Placement "44 0 1 -1 -1 -1 -1 0 200 0 591"))
+      (Tab 0))
+    (Document
+      (Type "COrSchematicDoc")
+      (Frame
+        (Placement "44 0 1 -1 -1 -1 -1 168 1659 62 793")
+        (Scroll "0 0")
+        (Zoom "100"))
+      (Path "C:\Documents and Settings\Administrator\Desktop\DESIGN1.DSN")
+      (Schematic "SCHEMATIC1")
+      (Page "PAGE1"))))

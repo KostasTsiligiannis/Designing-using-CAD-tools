@@ -1,0 +1,121 @@
+(ExpressProject "LAB44444444"
+  (ProjectType "PCB")
+  (Folder "Design Resources"
+    (Folder "Library"
+      (File "C:\ORCADWIN\EXPRESS\LIBRARY\SPICE.OLB"
+        (Type "Schematic Library"))
+      (File "C:\ORCADWIN\EXPRESS\LIBRARY\TTL.OLB"
+        (Type "Schematic Library"))
+      (File "C:\ORCADWIN\EXPRESS\LIBRARY\PSPICE.OLB"
+        (Type "Schematic Library"))
+      (File "C:\ORCADWIN\EXPRESS\LIBRARY\CONNECTR.OLB"
+        (Type "Schematic Library")))
+    (NoModify)
+    (File ".\design2.dsn"
+      (Type "Schematic Design"))
+    (BuildFileAddedOrDeleted "x")
+    (CompileFileAddedOrDeleted "x"))
+  (Folder "Outputs"
+    (File ".\design2.drc"
+      (Type "Report")))
+  (Folder "Referenced Projects")
+  (Folder "Simulation Resources"
+    (Folder "In Design"
+      (File "C:\ORCADWIN\EXPRESS\LIBRARY\AC.VHD"
+        (Type "VHDL SimModel"))
+      (File "C:\ORCADWIN\EXPRESS\LIBRARY\ACT.VHD"
+        (Type "VHDL SimModel"))
+      (File "C:\ORCADWIN\EXPRESS\LIBRARY\LS.VHD"
+        (Type "VHDL SimModel"))
+      (File "C:\ORCADWIN\EXPRESS\LIBRARY\S.VHD"
+        (Type "VHDL SimModel"))
+      (File "C:\ORCADWIN\EXPRESS\LIBRARY\TTL.VHD"
+        (Type "VHDL SimModel"))
+      (File "C:\ORCADWIN\EXPRESS\LIBRARY\orcomp.vhd"
+        (Type "VHDL SimModel"))
+      (File ".\indesign\design2.vhd"
+        (Type "VHDL Netlist")
+        (FromUpdateSimFolder "yes"))
+      (Document 5 ".\indesign\design2.vhd"
+        (Window "44 0 1 -1 -1 -1 -1 320 1732 170 754"))
+      (Options
+        (AssertBeep 1)
+        (AssertLog 1)
+        (AssertMsg 1)
+        (AssertStop 1)
+        (BreakBeep 1)
+        (BreakLog 1)
+        (BreakMessage 1)
+        (BreakStop 1)
+        (FileOpen
+           "C:\Documents and Settings\Administrator\Desktop\ask4\ask4_sim")
+        (InstructionStep 1)
+        (InteractiveUpdate 0)
+        (ITCEnabled 0)
+        (ListDisplayTop 1)
+        (LogTimeStamp 1)
+        (MiscOptLastPage 0)
+        (PlaAddToProject 1)
+        (PlaClockToOutput 0)
+        (PlaCombinational 0)
+        (PlaResolution -1)
+        (PlaSetupTime 0)
+        (PlaSpeedGrade 15)
+        (PlaTriStateEnable 0)
+        (Radix 5)
+        (RunResolution 2)
+        (RunTime 1000)
+        (SDFTiming 1)
+        (TimeCursorSnap 0)
+        (TimingBeep 0)
+        (TimingLog 1)
+        (TimingMsg 0)
+        (TimingStop 0)
+        (VHDLStandard 1)
+        (WaveDisplayTop 1)))
+    (Folder "Compiled"
+      (File "C:\ORCADWIN\EXPRESS\LIBRARY\AC.VHD"
+        (Type "VHDL SimModel"))
+      (File "C:\ORCADWIN\EXPRESS\LIBRARY\ACT.VHD"
+        (Type "VHDL SimModel"))
+      (File "C:\ORCADWIN\EXPRESS\LIBRARY\LS.VHD"
+        (Type "VHDL SimModel"))
+      (File "C:\ORCADWIN\EXPRESS\LIBRARY\S.VHD"
+        (Type "VHDL SimModel"))
+      (File "C:\ORCADWIN\EXPRESS\LIBRARY\TTL.VHD"
+        (Type "VHDL SimModel"))
+      (File "C:\ORCADWIN\EXPRESS\LIBRARY\orcomp.vhd"
+        (Type "VHDL SimModel"))
+      (File ".\indesign\design2.vhd"
+        (Type "VHDL Netlist")
+        (FromUpdateSimFolder "yes")))
+    (Folder "Timed"
+      (File "C:\ORCADWIN\EXPRESS\LIBRARY\AC.VHD"
+        (Type "VHDL SimModel"))
+      (File "C:\ORCADWIN\EXPRESS\LIBRARY\ACT.VHD"
+        (Type "VHDL SimModel"))
+      (File "C:\ORCADWIN\EXPRESS\LIBRARY\LS.VHD"
+        (Type "VHDL SimModel"))
+      (File "C:\ORCADWIN\EXPRESS\LIBRARY\S.VHD"
+        (Type "VHDL SimModel"))
+      (File "C:\ORCADWIN\EXPRESS\LIBRARY\TTL.VHD"
+        (Type "VHDL SimModel"))
+      (File "C:\ORCADWIN\EXPRESS\LIBRARY\orcomp.vhd"
+        (Type "VHDL SimModel"))
+      (File ".\indesign\design2.vhd"
+        (Type "VHDL Netlist")
+        (FromUpdateSimFolder "yes")))
+    (DefaultFolder "In Design")
+    (LastModified "Thu Apr 04 11:37:05 2024"))
+  (GlobalState
+    (Physical 0)
+    (FileView
+      (Path "Design Resources")
+      (Path "Outputs")
+      (Path "Simulation Resources"))
+    (HierarchyView)
+    (Document
+      (Type "COrCapturePMDoc")
+      (Frame
+        (Placement "44 0 1 -1 -1 -1 -1 0 200 0 518"))
+      (Tab 0))))
