@@ -105,8 +105,10 @@ endmodule
 
 module calculator (scan, prevscan, mdscan, result);
 	input [7:0] scan, prevscan, mdscan;
-	wire [3:0] first, second;
-	wire [1:0] mode;
+	wire [3:0] first, second, quotient, remainder ;
+	//reg [3:0] temp_div, shifted_div, q, quotient, remainder;
+	//reg [3:0] quotient, remainder;
+	//integer i;
 	output [6:0] result;
 	
 	assign first = (prevscan == 8'h45) ? 4'd0:
@@ -131,10 +133,35 @@ module calculator (scan, prevscan, mdscan, result);
               (scan == 8'h3E) ? 4'd8 :
               (scan == 8'h46) ? 4'd9 : 4'd0 ;
 	
+	/*always@(first or second or temp_div or shifted_div) begin
+		if (second == 4'd0) begin
+			quotient <= 0;
+			//remainder <= first; 
+		end
+		else begin
+			temp_div <= first;
+			q <= 0;
+			for(i=3; i>=0; i=i-1) begin
+				shifted_div <= second << i;
+				if (temp_div >= shifted_div) begin
+					temp_div <= temp_div - shifted_div;
+					q <= q | (1<<i);
+				end
+				else begin
+					temp_div <= temp_div;
+					q <= q;
+				end	
+			end
+			quotient <= q;
+			//remainder <= temp_div;
+		end
+	end */
+	divider d(first, second, quotient, remainder);
+	
 	assign result = (mdscan == 8'h79) ? first + second : //2'b00 
 				  (mdscan == 8'h7B) ? first - second : //2'b01 :
-				  (mdscan == 8'h22) ? first * second : 7'd0; //2'b10 : 2'b11;
-				  //(mdscan == 8'h4A) ? first / second : 7'd0 ; //2'b11 ;
+				  (mdscan == 8'h22) ? first * second : //2'b10 : 2'b11;
+				  (mdscan == 8'h4A) ? quotient : 7'd0 ; //2'b11 ;
 	
 	/*always @(mode or first or second)
 	case (mode)
@@ -146,6 +173,40 @@ module calculator (scan, prevscan, mdscan, result);
 
 endmodule
 
+module divider(Q, M, Quo, Rem);
+	input [3:0] Q;
+	input [3:0] M;
+	output[3:0] Quo;
+	output [3:0] Rem;
+	reg [3:0] Quo = 0;
+	reg [3:0] Rem = 0;
+	reg [3:0] a1, b1, p1;
+	integer i;
+	
+	always@(Q or M) 
+	begin
+		a1 = Q;
+		b1 = M;
+		p1 = 0;
+		for(i=0; i<4; i = i+1)
+		begin
+			p1 = {p1[3:0],a1[3]};
+			a1[3:1] = a1[2:0];
+			p1 = p1 - b1;
+			if(M == 0) a1 = 0;
+			else if(p1[3] == 1) 
+			begin
+				a1[0] = 0;
+				p1 = p1 + b1;
+			end
+			else a1[0] = 1;
+		end
+		Quo = a1;
+		Rem = p1;
+	end		
+	
+
+endmodule
 
 module eight (reset, clk, ps2clk, ps2data, left, right, s);
   input        reset, clk;
