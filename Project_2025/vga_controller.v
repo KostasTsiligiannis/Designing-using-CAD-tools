@@ -42,8 +42,8 @@ module vga_controller(
     parameter HMAX = HD+HF+HB+HR-1; // max value of horizontal counter = 799
     // Total vertical length of screen = 525 pixels, partitioned into sections
     parameter VD = 400;             // vertical display area length in pixels 
-    parameter VF = 10;              // vertical front porch length in pixels  
-    parameter VB = 32;              // vertical back porch length in pixels   
+    parameter VF = 35;              // vertical front porch length in pixels  
+    parameter VB = 12;              // vertical back porch length in pixels   
     parameter VR = 2;               // vertical retrace length in pixels  
     parameter VMAX = VD+VF+VB+VR-1; // max value of vertical counter    
     
@@ -105,7 +105,7 @@ module vga_controller(
                     v_count_next = v_count_reg + 1;
         
     // h_sync_next asserted within the horizontal retrace area
-    assign h_sync_next = (h_count_reg >= (HD+HB) && h_count_reg <= (HD+HB+HR-1));
+    assign h_sync_next = ~(h_count_reg >= (HD+HB) && h_count_reg <= (HD+HB+HR-1));
     
     // v_sync_next asserted within the vertical retrace area
     assign v_sync_next = (v_count_reg >= (VD+VB) && v_count_reg <= (VD+VB+VR-1));
@@ -113,14 +113,14 @@ module vga_controller(
     // Video ON/OFF - only ON while pixel counts are within the display area
     assign video_on = (h_count_reg < HD) && (v_count_reg < VD); // 0-639 and 0-479 respectively
     
-	// *** Θέσεις Y των γραμμών του πενταγράμμου ***
+	// *** ΓΓΓ³Γ¥Γ©Γ² Y Γ΄ΓΉΓ­ Γ£Γ±Γ΅Γ¬Γ¬ΓΎΓ­ Γ΄Γ―Γµ Γ°Γ¥Γ­Γ΄Γ΅Γ£Γ±ΓΓ¬Γ¬Γ―Γµ ***
 	parameter Y_LINE1 = 280;
 	parameter Y_LINE2 = 260;
 	parameter Y_LINE3 = 240;
 	parameter Y_LINE4 = 220;
 	parameter Y_LINE5 = 200;
 
-	// *** Θέσεις Y των νοτών ***
+	// *** ΓΓΓ³Γ¥Γ©Γ² Y Γ΄ΓΉΓ­ Γ­Γ―Γ΄ΓΎΓ­ ***
 	parameter Y_C = 300;
 	parameter Y_D = 290;
 	parameter Y_E = 280;
@@ -128,38 +128,40 @@ module vga_controller(
 	parameter Y_G = 260;
 	parameter Y_A = 250;
 	parameter Y_B = 240;
+	
 
-	// *** Συντεταγμένες κυκλικού συμβόλου (νότας) ***
-	parameter NOTE_X = 320; // Σταθερό X στο κέντρο της οθόνης
-	parameter NOTE_RADIUS = 10; // Ακτίνα κύκλου
-	parameter STEM_HEIGHT = 25; // Ύψος του κοτσανιού
-	parameter FLAG_WIDTH = 10; // Πλάτος της σημαίας του όγδοου
-	parameter FLAG_HEIGHT = 5; // Ύψος της σημαίας του όγδοου
+	// *** Γ“ΓµΓ­Γ΄Γ¥Γ΄Γ΅Γ£Γ¬ΓΓ­Γ¥Γ² ΓªΓµΓªΓ«Γ©ΓªΓ―Γ½ Γ³ΓµΓ¬ΓΆΓΌΓ«Γ―Γµ (Γ­ΓΌΓ΄Γ΅Γ²) ***
+	parameter NOTE_X = 320; // Γ“Γ΄Γ΅Γ¨Γ¥Γ±ΓΌ X Γ³Γ΄Γ― ΓªΓΓ­Γ΄Γ±Γ― Γ΄Γ§Γ² Γ―Γ¨ΓΌΓ­Γ§Γ²
+	parameter NOTE_RADIUS = 10; // ΓΓªΓ΄ΓΓ­Γ΅ ΓªΓ½ΓªΓ«Γ―Γµ
+	parameter STEM_HEIGHT = 25; // ΒΎΓΈΓ―Γ² Γ΄Γ―Γµ ΓªΓ―Γ΄Γ³Γ΅Γ­Γ©Γ―Γ½
+	parameter FLAG_WIDTH = 10; // ΓΓ«ΓΓ΄Γ―Γ² Γ΄Γ§Γ² Γ³Γ§Γ¬Γ΅ΓΓ΅Γ² Γ΄Γ―Γµ ΓΌΓ£Γ¤Γ―Γ―Γµ
+	parameter FLAG_HEIGHT = 5; // ΒΎΓΈΓ―Γ² Γ΄Γ§Γ² Γ³Γ§Γ¬Γ΅ΓΓ΅Γ² Γ΄Γ―Γµ ΓΌΓ£Γ¤Γ―Γ―Γµ
 	parameter LEDGER_LINE_WIDTH = 20;
-	// Υπολογισμός θέσης νότας
+	// Γ•Γ°Γ―Γ«Γ―Γ£Γ©Γ³Γ¬ΓΌΓ² Γ¨ΓΓ³Γ§Γ² Γ­ΓΌΓ΄Γ΅Γ²
 	wire [9:0] note_y;
-	assign note_y = (scan == 8'h23) ? Y_C :	//Ντο
-	                (scan == 8'h2D) ? Y_D :	//Ρε
-	                (scan == 8'h3A) ? Y_E :	//Μι
-	                (scan == 8'h2B) ? Y_F :	//Φα
-	                (scan == 8'h1B) ? Y_G :	//Σολ
-	                (scan == 8'h4B) ? Y_A :	//Λα
-	                (scan == 8'h21) ? Y_B :	/*Σι*/ 10'd650; // Εκτός οθόνης αν δεν υπάρχει νότα
+	assign note_y = (scan == 8'h23) ? Y_C :	//ΓΓ΄Γ―
+	                (scan == 8'h2D) ? Y_D :	//Γ‘Γ¥
+	                (scan == 8'h3A) ? Y_E :	//ΓΓ©
+	                (scan == 8'h2B) ? Y_F :	//Γ–Γ΅
+	                (scan == 8'h1B) ? Y_G :	//Γ“Γ―Γ«
+	                (scan == 8'h4B) ? Y_A :	//Γ‹Γ΅
+	                (scan == 8'h21) ? Y_B :	/*Γ“Γ©*/ 10'd650; // Γ…ΓªΓ΄ΓΌΓ² Γ―Γ¨ΓΌΓ­Γ§Γ² Γ΅Γ­ Γ¤Γ¥Γ­ ΓµΓ°ΓΓ±Γ·Γ¥Γ© Γ­ΓΌΓ΄Γ΅
 					//(scan == 8'h76) ? : 10'd500; 
 
-	// *** Υπολογισμός απόστασης για τη σχεδίαση κύκλου (νότας) ***
+	// *** Γ•Γ°Γ―Γ«Γ―Γ£Γ©Γ³Γ¬ΓΌΓ² Γ΅Γ°ΓΌΓ³Γ΄Γ΅Γ³Γ§Γ² Γ£Γ©Γ΅ Γ΄Γ§ Γ³Γ·Γ¥Γ¤ΓΓ΅Γ³Γ§ ΓªΓ½ΓªΓ«Γ―Γµ (Γ­ΓΌΓ΄Γ΅Γ²) ***
 	/*wire [9:0] draw_note;
 	assign draw_note = ((hcount - NOTE_X) * (hcount - NOTE_X) + (vcount - note_y) * (vcount - note_y)) <= (NOTE_RADIUS * NOTE_RADIUS);
 
-	// *** Υπολογισμός για σχεδίαση γραμμών πενταγράμμου ***
+	// *** Γ•Γ°Γ―Γ«Γ―Γ£Γ©Γ³Γ¬ΓΌΓ² Γ£Γ©Γ΅ Γ³Γ·Γ¥Γ¤ΓΓ΅Γ³Γ§ Γ£Γ±Γ΅Γ¬Γ¬ΓΎΓ­ Γ°Γ¥Γ­Γ΄Γ΅Γ£Γ±ΓΓ¬Γ¬Γ―Γµ ***
 	wire draw_staff;
 	assign draw_staff = (vcount == Y_LINE1) || (vcount == Y_LINE2) ||
 	                    (vcount == Y_LINE3) || (vcount == Y_LINE4) || (vcount == Y_LINE5);*/
 						
 
+
 				   
 
-	// *** Ρύθμιση χρωμάτων VGA ***
+	// *** Γ‘Γ½Γ¨Γ¬Γ©Γ³Γ§ Γ·Γ±ΓΉΓ¬ΓΓ΄ΓΉΓ­ VGA ***
 	always @(posedge w_25MHz or posedge reset) begin
 			if (reset) begin
 				red   <= 3'b000;
@@ -167,60 +169,99 @@ module vga_controller(
 				blue  <= 3'b000;
 			end
 			else if (video_on && (scan != 8'h76)) begin
-				if ( // Σχεδίαση κυκλικού μέρους της νότας
+				if ( // Γ“Γ·Γ¥Γ¤ΓΓ΅Γ³Γ§ ΓªΓµΓªΓ«Γ©ΓªΓ―Γ½ Γ¬ΓΓ±Γ―ΓµΓ² Γ΄Γ§Γ² Γ­ΓΌΓ΄Γ΅Γ²
 				((h_count_reg - NOTE_X) * (h_count_reg - NOTE_X) + 
 				 (v_count_reg - note_y) * (v_count_reg - note_y)) <= (NOTE_RADIUS * NOTE_RADIUS) ||
 
-				// Σχεδίαση του κανονικού κοτσανιού για όλες τις νότες εκτός από τη Σι
+				// Γ“Γ·Γ¥Γ¤ΓΓ΅Γ³Γ§ Γ΄Γ―Γµ ΓªΓ΅Γ­Γ―Γ­Γ©ΓªΓ―Γ½ ΓªΓ―Γ΄Γ³Γ΅Γ­Γ©Γ―Γ½ Γ£Γ©Γ΅ ΓΌΓ«Γ¥Γ² Γ΄Γ©Γ² Γ­ΓΌΓ΄Γ¥Γ² Γ¥ΓªΓ΄ΓΌΓ² Γ΅Γ°ΓΌ Γ΄Γ§ Γ“Γ©
 				((scan != 8'h21) && (h_count_reg >= (NOTE_X + 6)) && 
 				 (h_count_reg <= (NOTE_X + 8)) && 
 				 (v_count_reg <= note_y) && 
 				 (v_count_reg >= (note_y - STEM_HEIGHT))) ||
 
-				// Σχεδίαση της σημαίας του όγδοου για όλες τις νότες εκτός από τη Σι
+				// Γ“Γ·Γ¥Γ¤ΓΓ΅Γ³Γ§ Γ΄Γ§Γ² Γ³Γ§Γ¬Γ΅ΓΓ΅Γ² Γ΄Γ―Γµ ΓΌΓ£Γ¤Γ―Γ―Γµ Γ£Γ©Γ΅ ΓΌΓ«Γ¥Γ² Γ΄Γ©Γ² Γ­ΓΌΓ΄Γ¥Γ² Γ¥ΓªΓ΄ΓΌΓ² Γ΅Γ°ΓΌ Γ΄Γ§ Γ“Γ©
 				((scan != 8'h21) && (h_count_reg >= (NOTE_X + 8)) && 
 				 (h_count_reg <= (NOTE_X + 8 + FLAG_WIDTH)) && 
 				 (v_count_reg >= (note_y - STEM_HEIGHT)) && 
 				 (v_count_reg <= (note_y - STEM_HEIGHT + FLAG_HEIGHT))) ||
 
-				// Σχεδίαση του ανάποδου κοτσανιού για τη Σι (B) στη δεξιά πλευρά
+				// Γ“Γ·Γ¥Γ¤ΓΓ΅Γ³Γ§ Γ΄Γ―Γµ Γ΅Γ­ΓΓ°Γ―Γ¤Γ―Γµ ΓªΓ―Γ΄Γ³Γ΅Γ­Γ©Γ―Γ½ Γ£Γ©Γ΅ Γ΄Γ§ Γ“Γ© (B) Γ³Γ΄Γ§ Γ¤Γ¥Γ®Γ©Γ Γ°Γ«Γ¥ΓµΓ±Γ
 				((scan == 8'h21) && (h_count_reg >= (NOTE_X + 6)) && 
 				 (h_count_reg <= (NOTE_X + 8)) && 
 				 (v_count_reg >= note_y) && 
 				 (v_count_reg <= (note_y + STEM_HEIGHT))) ||
 
-				// Σχεδίαση της σημαίας του όγδοου για τη Σι (B) στη δεξιά πλευρά
+				// Γ“Γ·Γ¥Γ¤ΓΓ΅Γ³Γ§ Γ΄Γ§Γ² Γ³Γ§Γ¬Γ΅ΓΓ΅Γ² Γ΄Γ―Γµ ΓΌΓ£Γ¤Γ―Γ―Γµ Γ£Γ©Γ΅ Γ΄Γ§ Γ“Γ© (B) Γ³Γ΄Γ§ Γ¤Γ¥Γ®Γ©Γ Γ°Γ«Γ¥ΓµΓ±Γ
 				((scan == 8'h21) && (h_count_reg >= (NOTE_X + 8)) && 
 				 (h_count_reg <= (NOTE_X + 8 + FLAG_WIDTH)) && 
 				 (v_count_reg <= (note_y + STEM_HEIGHT)) && 
 				 (v_count_reg >= (note_y + STEM_HEIGHT - FLAG_HEIGHT))) ||
 
-				// Προσθήκη ledger line για Ντο (C)
+				// ΓΓ±Γ―Γ³Γ¨ΓΓªΓ§ ledger line Γ£Γ©Γ΅ ΓΓ΄Γ― (C)
 				((scan == 8'h23) && (h_count_reg >= (NOTE_X - LEDGER_LINE_WIDTH)) && 
 				 (h_count_reg <= (NOTE_X + LEDGER_LINE_WIDTH)) && 
 				 (v_count_reg == Y_C))
 				) 
-			begin	            // Σχεδίαση νότας (λευκός κύκλος)
-	            red   <= 3'd7;
-	            green <= 3'd7;
-	            blue  <= 3'd7;
+			begin	            // Γ“Γ·Γ¥Γ¤ΓΓ΅Γ³Γ§ Γ­ΓΌΓ΄Γ΅Γ² (Γ«Γ¥ΓµΓªΓΌΓ² ΓªΓ½ΓªΓ«Γ―Γ²)
+	             case (scan)
+                8'h23: begin  // ΞΟ„ΞΏ (C) - ΞΟΞΊΞΊΞΉΞ½ΞΏ
+                    red   <= 3'd7;
+                    green <= 3'd0;
+                    blue  <= 3'd0;
+                end
+                8'h2D: begin  // Ξ΅Ξµ (D) - Ξ ΞΏΟΟ„ΞΏΞΊΞ±Ξ»Ξ―
+                    red   <= 3'd7;
+                    green <= 3'd3;
+                    blue  <= 3'd0;
+                end
+                8'h3A: begin  // ΞΞΉ (E) - ΞΞ―Ο„ΟΞΉΞ½ΞΏ
+                    red   <= 3'd7;
+                    green <= 3'd7;
+                    blue  <= 3'd0;
+                end
+                8'h2B: begin  // Ξ¦Ξ± (F) - Ξ ΟΞ¬ΟƒΞΉΞ½ΞΏ
+                    red   <= 3'd0;
+                    green <= 3'd7;
+                    blue  <= 3'd0;
+                end
+                8'h1B: begin  // Ξ£ΞΏΞ» (G) - ΞΟ€Ξ»Ξµ
+                    red   <= 3'd0;
+                    green <= 3'd0;
+                    blue  <= 3'd7;
+                end
+                8'h4B: begin  // Ξ›Ξ± (A) - ΞΟ‰Ξ²
+                    red   <= 3'd4;
+                    green <= 3'd0;
+                    blue  <= 3'd7;
+                end
+                8'h21: begin  // Ξ£ΞΉ (B) - Ξ΅ΞΏΞ¶
+                    red   <= 3'd7;
+                    green <= 3'd2;
+                    blue  <= 3'd5;
+                end
+                default: begin
+                    red   <= 3'd0;
+                    green <= 3'd0;
+                    blue  <= 3'd0;
+                end
+				endcase
 	        end 
 			else if ((v_count_reg == Y_LINE1) || (v_count_reg == Y_LINE2) ||
 	                    (v_count_reg == Y_LINE3) || (v_count_reg == Y_LINE4) || (v_count_reg == Y_LINE5)) begin
-	            // Σχεδίαση γραμμών πενταγράμμου (λευκές οριζόντιες γραμμές)
+	            // Γ“Γ·Γ¥Γ¤ΓΓ΅Γ³Γ§ Γ£Γ±Γ΅Γ¬Γ¬ΓΎΓ­ Γ°Γ¥Γ­Γ΄Γ΅Γ£Γ±ΓΓ¬Γ¬Γ―Γµ (Γ«Γ¥ΓµΓªΓΓ² Γ―Γ±Γ©Γ¦ΓΌΓ­Γ΄Γ©Γ¥Γ² Γ£Γ±Γ΅Γ¬Γ¬ΓΓ²)
 	            red   <= 3'd7;
 	            green <= 3'd7;
 	            blue  <= 3'd7;
 	        end 
 			else begin
-	            // Μαύρο υπόβαθρο
+	            // ΓΓ΅Γ½Γ±Γ― ΓµΓ°ΓΌΓΆΓ΅Γ¨Γ±Γ―
 	            red   <= 3'd0;
 	            green <= 3'd0;
 	            blue  <= 3'd0;
 	        end
 	    end 
 		else begin
-	        // Μαύρο χρώμα εκτός ορατής περιοχής
+	        // ΓΓ΅Γ½Γ±Γ― Γ·Γ±ΓΎΓ¬Γ΅ Γ¥ΓªΓ΄ΓΌΓ² Γ―Γ±Γ΅Γ΄ΓΓ² Γ°Γ¥Γ±Γ©Γ―Γ·ΓΓ²
 	        red   <= 3'd0;
 	        green <= 3'd0;
 	        blue  <= 3'd0;

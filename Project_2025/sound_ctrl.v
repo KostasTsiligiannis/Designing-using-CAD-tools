@@ -1,43 +1,31 @@
-module pwm_notes (
-    input wire clk,              // Ρολόι 25MHz
-    input wire reset,            // Σήμα reset
-    input wire [3:0] current_note,  // Επιλεγμένη νότα: 0=C, 1=D, 2=E, 3=F, 4=G, 5=A, 6=B
-    output reg pwm_out           // Έξοδος PWM για τον buzzer
+module sound_ctrl (
+    input clk,         // 100 MHz Clock
+    input [7:0] scan,  // Επιλογή νότας 
+    output reg pwm_out,		//έξοδος ήχου
+	output [19:0] half_period,
+	output mute
 );
 
-    // Ορισμός της συχνότητας του ρολογιού
-    parameter CLOCK_FREQ = 25000000; // 25MHz
+    reg [19:0] counter = 0;
+    
+	
+	assign mute = (scan == 8'h05) ? 1 : 0;
+	
+	assign half_period = (scan == 8'h23 && !mute) ? 382233 / 2 :	//Ντο
+						 (scan == 8'h2D && !mute) ? 340529 / 2 :	//Ρε
+						 (scan == 8'h3A && !mute) ? 303379 / 2 :	//Μι
+						 (scan == 8'h2B && !mute) ? 286345 / 2 :	//Φα
+						 (scan == 8'h1B && !mute) ? 255102 / 2 :	//Σολ
+						 (scan == 8'h4B && !mute) ? 227273 / 2 :	//Λα
+						 (scan == 8'h21 && !mute) ? 202478 / 2 :	/*Σι*/ 10'd0;
 
-    // Ορισμός περιόδου για κάθε νότα.
-    // Χρησιμοποιούμε τον τύπο: period = CLOCK_FREQ / (2 * frequency)
-    // για να δημιουργήσουμε ένα 50% duty cycle (η έξοδος αναστρέφεται κάθε "half period").
-    reg [31:0] period;
-    always @(*) begin
-        case (current_note)
-            4'd0: period = CLOCK_FREQ / (2 * 262);  // C4 (Ντο) περίπου 262 Hz
-            4'd1: period = CLOCK_FREQ / (2 * 294);  // D4 (Ρε) περίπου 294 Hz
-            4'd2: period = CLOCK_FREQ / (2 * 330);  // E4 (Μι) περίπου 330 Hz
-            4'd3: period = CLOCK_FREQ / (2 * 349);  // F4 (Φα) περίπου 349 Hz
-            4'd4: period = CLOCK_FREQ / (2 * 392);  // G4 (Σολ) περίπου 392 Hz
-            4'd5: period = CLOCK_FREQ / (2 * 440);  // A4 (Λα) 440 Hz
-            4'd6: period = CLOCK_FREQ / (2 * 494);  // B4 (Σι) περίπου 494 Hz
-            default: period = CLOCK_FREQ / (2 * 262); // Προεπιλογή: C4
-        endcase
-    end
-
-    // Μετρητής για τη δημιουργία του PWM σήματος
-    reg [31:0] counter;
-    always @(posedge clk or posedge reset) begin
-        if (reset) begin
+	
+    always @(posedge clk) begin
+        if (counter < half_period)
+            counter <= counter + 1;
+        else begin
             counter <= 0;
-            pwm_out <= 0;
-        end else begin
-            if (counter >= period) begin
-                counter <= 0;
-                pwm_out <= ~pwm_out;  // Αναστροφή του PWM για 50% duty cycle
-            end else begin
-                counter <= counter + 1;
-            end
+            pwm_out <= ~pwm_out;
         end
     end
 
