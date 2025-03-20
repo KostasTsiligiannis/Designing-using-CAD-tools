@@ -1,27 +1,8 @@
-`timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Reference Book: 
-// Chu, Pong P.
-// Wiley, 2008
-// "FPGA Prototyping by Verilog Examples: Xilinx Spartan-3 Version" 
-// 
-// Adapted for the Basys 3 by David J. Marion
-// Comments by David J. Marion
-//
-// FOR USE WITH AN FPGA THAT HAS A 100MHz CLOCK SIGNAL ONLY.
-// VGA Mode
-// 640x480 pixels VGA screen with 25MHz pixel rate based on 60 Hz refresh rate
-// 800 pixels/line * 525 lines/screen * 60 screens/second = ~25.2M pixels/second
-//
-// A 25MHz signal will suffice. The Basys 3 has a 100MHz signal available, so a
-// 25MHz tick is created for syncing the pixel counts, pixel tick, horiz sync, 
-// vert sync, and video on signals.
-//////////////////////////////////////////////////////////////////////////////////
-
 module vga_controller(
     input clk_100MHz,   // from Basys 3
     input reset,        // system reset
     input [7:0] scan,
+	input [7:0] prevscan,
     output hsync,       // horizontal sync
     output vsync,       // vertical sync
     output reg [2:0] red,
@@ -128,7 +109,13 @@ module vga_controller(
 	parameter Y_G = 260;
 	parameter Y_A = 250;
 	parameter Y_B = 240;
-	
+	parameter Y_C5 = 230;
+	parameter Y_D5 = 220;
+	parameter Y_E5 = 210;
+	parameter Y_F5 = 200;
+	parameter Y_G5 = 190;
+	parameter Y_A5 = 180;
+	parameter Y_B5 = 170;
 
 	// *** ÓõíôåôáãìÝíåò êõêëéêïý óõìâüëïõ (íüôáò) ***
 	parameter NOTE_X = 320; // Óôáèåñü X óôï êÝíôñï ôçò ïèüíçò
@@ -139,14 +126,22 @@ module vga_controller(
 	parameter LEDGER_LINE_WIDTH = 20;
 	// Õðïëïãéóìüò èÝóçò íüôáò
 	wire [9:0] note_y;
-	assign note_y = (scan == 8'h23) ? Y_C :	//Íôï
-	                (scan == 8'h2D) ? Y_D :	//Ñå
-	                (scan == 8'h3A) ? Y_E :	//Ìé
-	                (scan == 8'h2B) ? Y_F :	//Öá
-	                (scan == 8'h1B) ? Y_G :	//Óïë
-	                (scan == 8'h4B) ? Y_A :	//Ëá
-	                (scan == 8'h21) ? Y_B :	/*Óé*/ 10'd650; // Åêôüò ïèüíçò áí äåí õðÜñ÷åé íüôá
-					//(scan == 8'h76) ? : 10'd500; 
+	assign note_y = (scan == 8'h23 && prevscan != 8'h12) ? Y_C :	//Nto
+	                (scan == 8'h2D && prevscan != 8'h12) ? Y_D :	//re
+	                (scan == 8'h3A && prevscan != 8'h12) ? Y_E :	//mi
+	                (scan == 8'h2B && prevscan != 8'h12) ? Y_F :	//fa
+	                (scan == 8'h1B && prevscan != 8'h12) ? Y_G :	//sol
+	                (scan == 8'h4B && prevscan != 8'h12) ? Y_A :	//la
+	                (scan == 8'h21 && prevscan != 8'h12) ? Y_B :	//ci 
+					(scan == 8'h23 && prevscan == 8'h12) ? Y_C5 :	//nto5
+	                (scan == 8'h2D && prevscan == 8'h12) ? Y_D5 :	//re5
+	                (scan == 8'h3A && prevscan == 8'h12) ? Y_E5 :	//mi5
+	                (scan == 8'h2B && prevscan == 8'h12) ? Y_F5 :	//fa5
+	                (scan == 8'h1B && prevscan == 8'h12) ? Y_G5 :	//sol5
+	                (scan == 8'h4B && prevscan == 8'h12) ? Y_A5 :	//la5
+	                (scan == 8'h21 && prevscan == 8'h12) ? Y_B5 :
+					((scan == 8'h76 || scan == 8'h12) || scan == 8'h0D) ? 10'd630 : 10'd650; 
+					
 
 	// *** Õðïëïãéóìüò áðüóôáóçò ãéá ôç ó÷åäßáóç êýêëïõ (íüôáò) ***
 	/*wire [9:0] draw_note;
@@ -168,7 +163,7 @@ module vga_controller(
 				green <= 3'b000;
 				blue  <= 3'b000;
 			end
-			else if (video_on && (scan != 8'h76)) begin
+			else if (video_on && (note_y != 10'd650)) begin
 				if ( // Ó÷åäßáóç êõêëéêïý ìÝñïõò ôçò íüôáò
 				((h_count_reg - NOTE_X) * (h_count_reg - NOTE_X) + 
 				 (v_count_reg - note_y) * (v_count_reg - note_y)) <= (NOTE_RADIUS * NOTE_RADIUS) ||
@@ -198,75 +193,115 @@ module vga_controller(
 				 (v_count_reg >= (note_y + STEM_HEIGHT - FLAG_HEIGHT))) ||
 
 				// ÐñïóèÞêç ledger line ãéá Íôï (C)
-				((scan == 8'h23) && (h_count_reg >= (NOTE_X - LEDGER_LINE_WIDTH)) && 
+				((scan == 8'h23 && prevscan != 8'h12) && (h_count_reg >= (NOTE_X - LEDGER_LINE_WIDTH)) && 
 				 (h_count_reg <= (NOTE_X + LEDGER_LINE_WIDTH)) && 
-				 (v_count_reg == Y_C))
+				 (v_count_reg == Y_C)) ||
+				 //ledger line for A5
+				 (((scan == 8'h4B && prevscan == 8'h12) ||(scan == 8'h21 && prevscan == 8'h12)) && (h_count_reg >= (NOTE_X - LEDGER_LINE_WIDTH)) && 
+				 (h_count_reg <= (NOTE_X + LEDGER_LINE_WIDTH)) && 
+				 (v_count_reg == Y_A5))
+				 //|| (scan == 8'h0D)
 				) 
-			begin	            // Ó÷åäßáóç íüôáò (ëåõêüò êýêëïò)
-	             case (scan)
-                8'h23: begin  // Ντο (C) - Κόκκινο
-                    red   <= 3'd7;
-                    green <= 3'd0;
-                    blue  <= 3'd0;
-                end
-                8'h2D: begin  // Ρε (D) - Πορτοκαλί
-                    red   <= 3'd7;
-                    green <= 3'd3;
-                    blue  <= 3'd0;
-                end
-                8'h3A: begin  // Μι (E) - Κίτρινο
-                    red   <= 3'd7;
-                    green <= 3'd7;
-                    blue  <= 3'd0;
-                end
-                8'h2B: begin  // Φα (F) - Πράσινο
-                    red   <= 3'd0;
-                    green <= 3'd7;
-                    blue  <= 3'd0;
-                end
-                8'h1B: begin  // Σολ (G) - Μπλε
-                    red   <= 3'd0;
-                    green <= 3'd0;
-                    blue  <= 3'd7;
-                end
-                8'h4B: begin  // Λα (A) - Μωβ
-                    red   <= 3'd4;
-                    green <= 3'd0;
-                    blue  <= 3'd7;
-                end
-                8'h21: begin  // Σι (B) - Ροζ
-                    red   <= 3'd7;
-                    green <= 3'd2;
-                    blue  <= 3'd5;
-                end
-                default: begin
-                    red   <= 3'd0;
-                    green <= 3'd0;
-                    blue  <= 3'd0;
-                end
-				endcase
-	        end 
-			else if ((v_count_reg == Y_LINE1) || (v_count_reg == Y_LINE2) ||
-	                    (v_count_reg == Y_LINE3) || (v_count_reg == Y_LINE4) || (v_count_reg == Y_LINE5)) begin
-	            // Ó÷åäßáóç ãñáììþí ðåíôáãñÜììïõ (ëåõêÝò ïñéæüíôéåò ãñáììÝò)
-	            red   <= 3'd7;
-	            green <= 3'd7;
-	            blue  <= 3'd7;
-	        end 
+				begin	            // Ó÷åäßáóç íüôáò (ëåõêüò êýêëïò)
+		            case (note_y)
+	                Y_C: begin  // Ντο (C) - Κόκκινο
+	                    red   <= 3'd7;
+	                    green <= 3'd0;
+	                    blue  <= 3'd0;
+	                end
+	                Y_D: begin  // Ρε (D) - Πορτοκαλί
+	                    red   <= 3'd7;
+	                    green <= 3'd3;
+	                    blue  <= 3'd0;
+	                end
+	                Y_E: begin  // Μι (E) - Κίτρινο
+	                    red   <= 3'd7;
+	                    green <= 3'd7;
+	                    blue  <= 3'd0;
+	                end
+	                Y_F: begin  // Φα (F) - Πράσινο
+	                    red   <= 3'd0;
+	                    green <= 3'd7;
+	                    blue  <= 3'd0;
+	                end
+	                Y_G: begin  // Σολ (G) - Μπλε
+	                    red   <= 3'd0;
+	                    green <= 3'd0;
+	                    blue  <= 3'd7;
+	                end
+	                Y_A: begin  // Λα (A) - Μωβ
+	                    red   <= 3'd4;
+	                    green <= 3'd0;
+	                    blue  <= 3'd7;
+	                end
+	                Y_B: begin  // Σι (B) - Ροζ
+	                    red   <= 3'd7;
+	                    green <= 3'd2;
+	                    blue  <= 3'd5;
+	                end
+					Y_C5: begin  // Ντο5 (C) 
+	                    red   <= 3'd4;
+	                    green <= 3'd1;
+	                    blue  <= 3'd3;
+	                end
+	                Y_D5: begin  // Ρε5 (D)
+	                    red   <= 3'd3;
+	                    green <= 3'd6;
+	                    blue  <= 3'd4;
+	                end
+	                Y_E5: begin  // Μι5 (E)
+	                    red   <= 3'd2;
+	                    green <= 3'd7;
+	                    blue  <= 3'd6;
+	                end
+	                Y_F5: begin  // Φα5 (F)
+	                    red   <= 3'd1;
+	                    green <= 3'd3;
+	                    blue  <= 3'd2;
+	                end
+	                Y_G5: begin  // Σολ5 (G)
+	                    red   <= 3'd3;
+	                    green <= 3'd5;
+	                    blue  <= 3'd2;
+	                end
+	                Y_A5: begin  // Λα5 (A)
+	                    red   <= 3'd4;
+	                    green <= 3'd3;
+	                    blue  <= 3'd3;
+	                end
+	                Y_B5: begin  // Σι5 (B)
+	                    red   <= 3'd2;
+	                    green <= 3'd1;
+	                    blue  <= 3'd4;
+	                end
+	                default: begin
+	                    red   <= 3'd0;
+	                    green <= 3'd0;
+	                    blue  <= 3'd0;
+	                end
+					endcase
+		        end 
+				else if ((v_count_reg == Y_LINE1) || (v_count_reg == Y_LINE2) ||
+		                    (v_count_reg == Y_LINE3) || (v_count_reg == Y_LINE4) || (v_count_reg == Y_LINE5)) begin
+		            // Ó÷åäßáóç ãñáììþí ðåíôáãñÜììïõ (ëåõêÝò ïñéæüíôéåò ãñáììÝò)
+		            red   <= 3'd7;
+		            green <= 3'd7;
+		            blue  <= 3'd7;
+		        end 
+				else begin
+		            // Ìáýñï õðüâáèñï
+		            red   <= 3'd0;
+		            green <= 3'd0;
+		            blue  <= 3'd0;
+		        end
+			end 
 			else begin
-	            // Ìáýñï õðüâáèñï
-	            red   <= 3'd0;
-	            green <= 3'd0;
-	            blue  <= 3'd0;
-	        end
-	    end 
-		else begin
-	        // Ìáýñï ÷ñþìá åêôüò ïñáôÞò ðåñéï÷Þò
-	        red   <= 3'd0;
-	        green <= 3'd0;
-	        blue  <= 3'd0;
-	    end
-	end
+		        // Ìáýñï ÷ñþìá åêôüò ïñáôÞò ðåñéï÷Þò
+		        red   <= 3'd0;
+		        green <= 3'd0;
+		        blue  <= 3'd0;
+		    end
+		end
 	
 	
     // Outputs
@@ -275,8 +310,6 @@ module vga_controller(
     assign x      = h_count_reg;
     assign y      = v_count_reg;
     assign p_tick = w_25MHz;
-	//assign red = (video_on) ? {x[7], x[6], x[5]} : 3'b000;
-	//assign green = (video_on) ? {y[7], y[6], y[5]} : 3'b000;
-	//assign blue = (video_on) ? {x[4], y[4], x[3]} : 3'b000;
+
             
 endmodule

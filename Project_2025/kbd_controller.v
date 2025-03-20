@@ -1,7 +1,7 @@
-module kbd_controller (reset, clk_100MHz, ps2clk, ps2data, scancode);
+module kbd_controller (reset, clk_100MHz, ps2clk, ps2data, scancode, prevscancode);
   input        reset, clk_100MHz, ps2clk, ps2data;
-  output [7:0] scancode;
-  reg    [7:0] scancode;
+  output [7:0] scancode, prevscancode;
+  reg    [7:0] scancode, prevscancode;
   
   // Synchronize ps2clk to local clock and check for falling edge;
   reg    [7:0] ps2clksamples; // Stores last 8 ps2clk samples
@@ -28,6 +28,7 @@ module kbd_controller (reset, clk_100MHz, ps2clk, ps2data, scancode);
       begin
         cnt    <= 4'd0;
         scancode <= 8'd0;
+		prevscancode <= 8'd0;
         shift    <= 10'd0;
         f0       <= 1'b0;
       end  
@@ -40,6 +41,7 @@ module kbd_controller (reset, clk_100MHz, ps2clk, ps2data, scancode);
                  begin
                    if (f0) // following a scancode of f0. So a key is released ! 
                      begin
+					   prevscancode <= scancode;
                        scancode <= shift[8:1];
                        f0 <= 0;
                      end
