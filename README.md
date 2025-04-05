@@ -1,3 +1,34 @@
-# Designing-On-FPGA
-We worked as a team in the undergraduate course "ΣΧΕ∆ΙΑΣΗ ΣΥΣΤΗΜΑΤΩΝ ΜΕ ΧΡΗΣΗ ΥΠΟΛΟΓΙΣΤΩΝ (E - CAD)" in the period of an academic semester. We worked on "ORCAD" for the exercises 1-4, on ModelSim for the exercise 5 and on a Xilinx' s fpga (Spartan3 series) for the exercises 6-8 and the project. 
-In file "Tasks" you can see the topics of the exercises in pdf (page 135 and below) and of the project
+# FPGA-Based Digital Design – E-CAD University Project
+
+This repository contains the work done as part of the undergraduate course **"ΣΧΕ∆ΙΑΣΗ ΣΥΣΤΗΜΑΤΩΝ ΜΕ ΧΡΗΣΗ ΥΠΟΛΟΓΙΣΤΩΝ (E-CAD)"** during one academic semester.
+
+## Tools & Technologies
+-  **OrCAD** – Exercises 1-4: Circuit simulation & schematic design
+-  **ModelSim** – Exercise 5: Simulation of digital logic in VHDL
+-  **Xilinx Spartan-3 FPGA** – Exercises 6-8 and final project: Hardware implementation using VHDL on a development board
+-  **Xilinx ISE Design Suite**
+
+## Project Overview
+
+We worked as a team to complete 8 exercises and a final project that gradually introduced us to digital system design, simulation, and hardware implementation.
+
+- **Exercises 1–4:** Schematic entry and simulation with OrCAD
+- **Exercise 5:** Writing and simulating VHDL code in ModelSim
+- **Exercises 6–8:** Synthesis and implementation on Spartan-3 FPGA using VHDL
+- **Final Project:** Full digital system implementation using VHDL and FPGA deployment
+
+The **file `Tasks.pdf`** includes detailed descriptions of the exercises (from page 135 onwards) and the final project topic.
+
+## Team Collaboration
+The work was carried out collaboratively as a team, with clear task assignments, documentation, and iterative testing to ensure successful implementation on real hardware.
+
+## Files Included
+- `Tasks.pdf`: Description of exercises and final project
+- `Modelsim/`: VHDL code and testbenches
+- `FPGA/`: Project files for Xilinx ISE
+- `Orcad/`: Schematic files for OrCAD simulations
+
+## Tags
+`FPGA`, `VHDL`, `Xilinx`, `Spartan3`, `ModelSim`, `OrCAD`, `Digital Systems`, `EDA Tools`, `Hardware Design`, `E-CAD`
+
+
