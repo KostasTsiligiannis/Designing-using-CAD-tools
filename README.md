@@ -5,7 +5,7 @@ This repository contains the work done as part of the undergraduate course **"Σ
 ## Tools & Technologies
 -  **OrCAD** – Exercises 1-4: Circuit simulation & schematic design
 -  **ModelSim** – Exercise 5: Simulation of digital logic in VHDL
--  **Xilinx Spartan-3 FPGA** – Exercises 6-8 and final project: Hardware implementation using VHDL on a development board
+-  **Xilinx Spartan-3 FPGA** – Exercises 6-8 and final project: Hardware implementation using Verilog on a development board
 -  **Xilinx ISE Design Suite**
 
 ## Project Overview
@@ -14,8 +14,8 @@ We worked as a team to complete 8 exercises and a final project that gradually i
 
 - **Exercises 1–4:** Schematic entry and simulation with OrCAD
 - **Exercise 5:** Writing and simulating VHDL code in ModelSim
-- **Exercises 6–8:** Synthesis and implementation on Spartan-3 FPGA using VHDL
-- **Final Project:** Full digital system implementation using VHDL and FPGA deployment
+- **Exercises 6–8:** Synthesis and implementation on Spartan-3 FPGA using Verilog
+- **Final Project:** Full digital system implementation using Verilog and FPGA deployment
 
 The **file `Tasks.pdf`** includes detailed descriptions of the exercises (from page 135 onwards) and the final project topic.
 
@@ -24,11 +24,11 @@ The work was carried out collaboratively as a team, with clear task assignments,
 
 ## Files Included
 - `Tasks.pdf`: Description of exercises and final project
-- `Modelsim/`: VHDL code and testbenches
+- `Modelsim/`: Verilog code and testbenches
 - `FPGA/`: Project files for Xilinx ISE
 - `Orcad/`: Schematic files for OrCAD simulations
 
 ## Tags
-`FPGA`, `VHDL`, `Xilinx`, `Spartan3`, `ModelSim`, `OrCAD`, `Digital Systems`, `EDA Tools`, `Hardware Design`, `E-CAD`
+`FPGA`, `Verilog`, `Xilinx`, `Spartan3`, `ModelSim`, `OrCAD`, `Digital Systems`, `EDA Tools`, `Hardware Design`, `E-CAD`, `ISE`
 
 
