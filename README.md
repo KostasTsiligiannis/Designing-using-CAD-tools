@@ -1,6 +1,6 @@
 # FPGA-Based Digital Design – E-CAD University Project
 
-This repository contains the work done as part of the undergraduate course **"ΣΧΕ∆ΙΑΣΗ ΣΥΣΤΗΜΑΤΩΝ ΜΕ ΧΡΗΣΗ ΥΠΟΛΟΓΙΣΤΩΝ (E-CAD)"** during one academic semester.
+> This repository contains a series of exercises and a final project from the “Computer-Aided Design of Systems (E-CAD)” course. We explored circuit design, digital simulation, and FPGA implementation using industry-standard tools.
 
 ## Tools & Technologies
 -  **OrCAD** – Exercises 1-4: Circuit simulation & schematic design
