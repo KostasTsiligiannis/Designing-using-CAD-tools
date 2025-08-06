@@ -1,0 +1,81 @@
+(ExpressProject "ASKISI_4_FYSIKO"
+  (ProjectType "PCB")
+  (Folder "Design Resources"
+    (Folder "Library"
+      (File "C:\ORCADWIN\EXPRESS\LIBRARY\SPICE.OLB"
+        (Type "Schematic Library"))
+      (File "C:\ORCADWIN\EXPRESS\LIBRARY\TTL.OLB"
+        (Type "Schematic Library"))
+      (File "C:\ORCADWIN\EXPRESS\LIBRARY\PSPICE.OLB"
+        (Type "Schematic Library"))
+      (File "C:\ORCADWIN\EXPRESS\LIBRARY\CONNECTR.OLB"
+        (Type "Schematic Library")))
+    (NoModify)
+    (File ".\design3.dsn"
+      (Type "Schematic Design"))
+    (BuildFileAddedOrDeleted "x")
+    (CompileFileAddedOrDeleted "x"))
+  (Folder "Outputs"
+    (File ".\design3.drc"
+      (Type "Report"))
+    (File ".\design3.mnl"
+      (Type "Report"))
+    (File ".\design3_new.mnl"
+      (Type "Report"))
+    (File ".\design3nn_new.mnl"
+      (Type "Report")))
+  (Folder "Referenced Projects")
+  (Folder "Simulation Resources"
+    (Folder "In Design"
+      (File "C:\ORCADWIN\EXPRESS\LIBRARY\AC.VHD"
+        (Type "VHDL SimModel"))
+      (File "C:\ORCADWIN\EXPRESS\LIBRARY\ACT.VHD"
+        (Type "VHDL SimModel"))
+      (File "C:\ORCADWIN\EXPRESS\LIBRARY\TTL.VHD"
+        (Type "VHDL SimModel"))
+      (File "C:\ORCADWIN\EXPRESS\LIBRARY\orcomp.vhd"
+        (Type "VHDL SimModel")))
+    (Folder "Compiled"
+      (File "C:\ORCADWIN\EXPRESS\LIBRARY\AC.VHD"
+        (Type "VHDL SimModel"))
+      (File "C:\ORCADWIN\EXPRESS\LIBRARY\ACT.VHD"
+        (Type "VHDL SimModel"))
+      (File "C:\ORCADWIN\EXPRESS\LIBRARY\TTL.VHD"
+        (Type "VHDL SimModel"))
+      (File "C:\ORCADWIN\EXPRESS\LIBRARY\orcomp.vhd"
+        (Type "VHDL SimModel")))
+    (Folder "Timed"
+      (File "C:\ORCADWIN\EXPRESS\LIBRARY\AC.VHD"
+        (Type "VHDL SimModel"))
+      (File "C:\ORCADWIN\EXPRESS\LIBRARY\ACT.VHD"
+        (Type "VHDL SimModel"))
+      (File "C:\ORCADWIN\EXPRESS\LIBRARY\TTL.VHD"
+        (Type "VHDL SimModel"))
+      (File "C:\ORCADWIN\EXPRESS\LIBRARY\orcomp.vhd"
+        (Type "VHDL SimModel"))))
+  (GlobalState
+    (Physical 0)
+    (FileView
+      (Path "Design Resources")
+      (Path "Design Resources"
+         "C:\Documents and Settings\Administrator\My Documents\ANDROMIDAS_ASKISI\design3.dsn")
+      (Path "Design Resources"
+         "C:\Documents and Settings\Administrator\My Documents\ANDROMIDAS_ASKISI\design3.dsn"
+         "SCHEMATIC1")
+      (Path "Outputs"))
+    (HierarchyView)
+    (Document
+      (Type "COrCapturePMDoc")
+      (Frame
+        (Placement "44 0 1 -1 -1 -1 -1 0 200 0 591"))
+      (Tab 0))
+    (Document
+      (Type "COrSchematicDoc")
+      (Frame
+        (Placement "44 0 1 -1 -1 -1 -1 221 1637 32 861")
+        (Scroll "93 0")
+        (Zoom "100"))
+      (Path
+         "C:\DOCUMENTS AND SETTINGS\ADMINISTRATOR\MY DOCUMENTS\ANDROMIDAS_ASKISI\DESIGN3.DSN")
+      (Schematic "SCHEMATIC1")
+      (Page "PAGE1"))))

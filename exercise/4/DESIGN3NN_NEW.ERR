@@ -1,0 +1,10 @@
+AutoECO Error Report
+FILE-A: E:\ANDROMIDAS_ASKISI\DESIGN3NN_NEW.MAX
+FILE-B: E:\ANDROMIDAS_ASKISI\DESIGN3NN_NEW.MNL
+ERROR: Electrical package CAP for comp C1 has at least one pin (2)                        
+which has no corresponding pin on footprint CPCYL/D.300/LS.200/.034.                        
+You may create or modify a footprint, choose another,                        
+or press Cancel at the main dialog to skip this component.
+ERROR: Component C1 (with fp CPCYL/D.300/LS.200/.034_C1) has no pin 1
+ERROR: Component C1 (with fp CPCYL/D.300/LS.200/.034_C1) has no pin 2
+2 errors found
